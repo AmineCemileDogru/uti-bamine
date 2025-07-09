@@ -3,7 +3,6 @@ from pydantic import Field, validator
 from typing import List, Optional, Union, Literal
 from sdks.novavision.src.base.model import Package, Image, Inputs, Configs, Outputs, Response, Request, Output, Input, Config
 
-
 class InputImage(Input):
     name: Literal["inputImage"] = "inputImage"
     value: Union[List[Image], Image]
@@ -82,39 +81,34 @@ class Degree(Config):
     placeHolder: Literal["[-359, 359]"] = "[-359, 359]"
 
     class Config:
-        title = "Angle"
+        title = "Angleee"
 
-
-class PackageInputs(Inputs):
+class BAmineExecutorInputs(Inputs):
     inputImage: InputImage
 
 
-class PackageConfigs(Configs):
+class BAmineExecutorConfigs(Configs):
     degree: Degree
     drawBBox: KeepSideBBox
 
-
-class PackageOutputs(Outputs):
-    outputImage: OutputImage
-
-
-class PackageRequest(Request):
-    inputs: Optional[PackageInputs]
-    configs: PackageConfigs
+class BAmineExecutorRequest(Request):
+    inputs: Optional[BAmineExecutorInputs]
+    configs: BAmineExecutorConfigs
 
     class Config:
         json_schema_extra = {
             "target": "configs"
         }
 
+class BAmineExecutorOutputs(Outputs):
+    outputImage: OutputImage
 
-class PackageResponse(Response):
-    outputs: PackageOutputs
+class BAmineExecutorResponse(Response):
+    outputs: BAmineExecutorOutputs
 
-
-class PackageExecutor(Config):
-    name: Literal["Package"] = "Package"
-    value: Union[PackageRequest, PackageResponse]
+class BAmineExecutor(Config):
+    name: Literal["BAmine"] = "BAmine"
+    value: Union[BAmineExecutorRequest, BAmineExecutorResponse]
     type: Literal["object"] = "object"
     field: Literal["option"] = "option"
 
@@ -126,10 +120,9 @@ class PackageExecutor(Config):
             }
         }
 
-
 class ConfigExecutor(Config):
     name: Literal["ConfigExecutor"] = "ConfigExecutor"
-    value: Union[PackageExecutor]
+    value: Union[BAmineExecutor]
     type: Literal["executor"] = "executor"
     field: Literal["dependentDropdownlist"] = "dependentDropdownlist"
 
@@ -139,10 +132,8 @@ class ConfigExecutor(Config):
             "target": "value"
         }
 
-
 class PackageConfigs(Configs):
     executor: ConfigExecutor
-
 
 class PackageModel(Package):
     configs: PackageConfigs
