@@ -15,7 +15,7 @@ from components.BAmine.src.utils.response import build_response
 from components.BAmine.src.models.PackageModel import PackageModel
 
 
-class BAmineExecutor(Component):
+class BAmine(Component):
     def __init__(self, request, bootstrap):
         super().__init__(request, bootstrap)
         self.request.model = PackageModel(**(self.request.data))
@@ -24,10 +24,14 @@ class BAmineExecutor(Component):
         self.image = self.request.get_param("inputImage")
 
     @staticmethod
-    def blurring(self,img):
+    def bootstrap(config: dict) -> dict:
+        return {}
+
+    def blurring(self, img):
         """,
         Convert image to blurring
         """
+        # Gaussian Blur uygulama
 
         return cv2.GaussianBlur(img, (15, 15), 0)
 
