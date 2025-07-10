@@ -19,9 +19,41 @@ class InputImage(Input):
     class Config:
         title = "Image"
 
+class InputImageTwo(Input):
+    name: Literal["inputImageTwo"] = "inputImageTwo"
+    value: Union[List[Image], Image]
+    type: str = "object"
 
-class OutputImage(Output):
-    name: Literal["outputImage"] = "outputImage"
+    @validator("type", pre=True, always=True)
+    def set_type_based_on_value(cls, value, values):
+        value = values.get('value')
+        if isinstance(value, Image):
+            return "object"
+        elif isinstance(value, list):
+            return "list"
+
+    class Config:
+        title = "Image"
+
+
+class OutputImageOne(Output):
+    name: Literal["outputImageOne"] = "outputImageOne"
+    value: Union[List[Image],Image]
+    type: str = "object"
+
+    @validator("type", pre=True, always=True)
+    def set_type_based_on_value(cls, value, values):
+        value = values.get('value')
+        if isinstance(value, Image):
+            return "object"
+        elif isinstance(value, list):
+            return "list"
+
+    class Config:
+        title = "Image"
+
+class OutputImageTwo(Output):
+    name: Literal["outputImageTwo"] = "outputImageTwo"
     value: Union[List[Image],Image]
     type: str = "object"
 
@@ -81,7 +113,7 @@ class Degree(Config):
     placeHolder: Literal["[-359, 359]"] = "[-359, 359]"
 
     class Config:
-        title = "Angleee"
+        title = "Anglee"
 
 class BAmineExecutorInputs(Inputs):
     inputImage: InputImage
@@ -120,11 +152,63 @@ class BAmineExecutor(Config):
             }
         }
 
+
+
+
+
+
+
+
+class CAmineExecutorInputs(Inputs):
+    inputImageOne: InputImageOne
+    inputImageTwo: InputImageTwo
+
+
+class CAmineExecutorConfigs(Configs):
+    degree: Degree
+    drawBBox: KeepSideBBox
+
+class CAmineExecutorRequest(Request):
+    inputs: Optional[CAmineExecutorInputs]
+    configs: CAmineExecutorConfigs
+
+    class Config:
+        json_schema_extra = {
+            "target": "configs"
+        }
+
+class CAmineExecutorOutputs(Outputs):
+    outputImageOne: OutputImageOne
+    outputImageTwo: OutputImageTwo
+
+class CAmineExecutorResponse(Response):
+    outputs: CAmineExecutorOutputs
+
+class CAmineExecutor(Config):
+    name: Literal["CAmine"] = "CAmine"
+    value: Union[CAmineExecutorRequest, CAmineExecutorResponse]
+    type: Literal["object"] = "object"
+    field: Literal["option"] = "option"
+
+    class Config:
+        title = "Package"
+        json_schema_extra = {
+            "target": {
+                "value": 0
+            }
+        }
+
+
+
+
+
+
 class ConfigExecutor(Config):
     name: Literal["ConfigExecutor"] = "ConfigExecutor"
-    value: Union[BAmineExecutor]
+    value: Union[BAmineExecutor, CAmineExecutor]
     type: Literal["executor"] = "executor"
     field: Literal["dependentDropdownlist"] = "dependentDropdownlist"
+    restart: Literal[True] = True
 
     class Config:
         title = "Task"
