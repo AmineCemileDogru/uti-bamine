@@ -116,7 +116,7 @@ class Degree(Config):
         title = "Anglee"
 
 class BAmineExecutorInputs(Inputs):
-    inputImage: InputImage
+    inputImageOne: InputImageOne
 
 
 class BAmineExecutorConfigs(Configs):
@@ -133,7 +133,7 @@ class BAmineExecutorRequest(Request):
         }
 
 class BAmineExecutorOutputs(Outputs):
-    outputImage: OutputImage
+    outputImageOne: OutputImageOne
 
 class BAmineExecutorResponse(Response):
     outputs: BAmineExecutorOutputs
