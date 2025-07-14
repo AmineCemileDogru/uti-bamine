@@ -1,11 +1,11 @@
 
 from sdks.novavision.src.helper.package import PackageHelper
-from components.BAmine.src.models.PackageModel import PackageModel, PackageConfigs, ConfigExecutor, BAmineExecutorOutputs, BAmineExecutorResponse, BAmineExecutor,CAmineExecutorOutputs, CAmineExecutorResponse, CAmineExecutor, OutputImage
+from components.BAmine.src.models.PackageModel import PackageModel, PackageConfigs, ConfigExecutor, BAmineExecutorOutputs, BAmineExecutorResponse, BAmineExecutor, CAmineExecutorOutputs, CAmineExecutorResponse, CAmineExecutor, OutputImageOne, OutputImageTwo
 
 
 def build_response_b(context):
-    outputImage = OutputImage(value=context.image)
-    bAmineExecutorOutputs = BAmineExecutorOutputs(outputImage=outputImage)
+    outputImageOne = OutputImageOne(value=context.image)
+    bAmineExecutorOutputs = BAmineExecutorOutputs(outputImage=outputImageOne)
     bAmineExecutorResponse = BAmineExecutorResponse(outputs=bAmineExecutorOutputs)
     bAmineExecutor = BAmineExecutor(value=bAmineExecutorResponse)
     configexecutor = ConfigExecutor(value=bAmineExecutor)
@@ -15,8 +15,8 @@ def build_response_b(context):
     return packageModel
 
 def build_response_c(context):
-    outputImage = OutputImage(value=context.image)
-    cAmineExecutorOutputs = CAmineExecutorOutputs(outputImage=outputImage)
+    outputImageOne = OutputImageOne(value=context.image)
+    cAmineExecutorOutputs = CAmineExecutorOutputs(outputImage=outputImageOne)
     cAmineExecutorResponse = CAmineExecutorResponse(outputs=cAmineExecutorOutputs)
     cAmineExecutor = CAmineExecutor(value=cAmineExecutorResponse)
     configexecutor = ConfigExecutor(value=cAmineExecutor)
