@@ -38,7 +38,7 @@ class BAmine(Component):
     def run(self):
         img = Image.get_frame(img=self.image, redis_db=self.redis_db)
         img.value = self.blurring(img.value)
-        self.image = Image.set_frame(img=img, package_uID=self.uID, redis_db=self.redis_db)
+        self.image_one = Image.set_frame(img=img, package_uID=self.uID, redis_db=self.redis_db)
         packageModel = build_response_b(context=self)
         return packageModel
 

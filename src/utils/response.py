@@ -15,8 +15,12 @@ def build_response_b(context):
     return packageModel
 
 def build_response_c(context):
-    outputImageOne = OutputImageOne(value=context.image)
-    cAmineExecutorOutputs = CAmineExecutorOutputs(outputImage=outputImageOne)
+    outputImageOne = OutputImageOne(value=context.image_one)
+    outputImageTwo = OutputImageTwo(value=context.image_two)
+    cAmineExecutorOutputs = CAmineExecutorOutputs(
+        outputImageOne=outputImageOne,
+        outputImageTwo=outputImageTwo
+    )
     cAmineExecutorResponse = CAmineExecutorResponse(outputs=cAmineExecutorOutputs)
     cAmineExecutor = CAmineExecutor(value=cAmineExecutorResponse)
     configexecutor = ConfigExecutor(value=cAmineExecutor)
