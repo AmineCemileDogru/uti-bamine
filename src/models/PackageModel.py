@@ -3,6 +3,7 @@ from pydantic import Field, validator
 from typing import List, Optional, Union, Literal
 from sdks.novavision.src.base.model import Package, Image, Inputs, Configs, Outputs, Response, Request, Output, Input, Config
 
+
 class InputImageOne(Input):
     name: Literal["inputImageOne"] = "inputImageOne"
     value: Union[List[Image], Image]
@@ -145,7 +146,7 @@ class BAmineExecutor(Config):
     field: Literal["option"] = "option"
 
     class Config:
-        title = "Package"
+        title = "Blurring"
         json_schema_extra = {
             "target": {
                 "value": 0
@@ -191,7 +192,7 @@ class CAmineExecutor(Config):
     field: Literal["option"] = "option"
 
     class Config:
-        title = "Package"
+        title = "Crop"
         json_schema_extra = {
             "target": {
                 "value": 0
@@ -211,10 +212,7 @@ class ConfigExecutor(Config):
     restart: Literal[True] = True
 
     class Config:
-        title = "Task"
-        json_schema_extra = {
-            "target": "value"
-        }
+        title = "Type"
 
 class PackageConfigs(Configs):
     executor: ConfigExecutor
