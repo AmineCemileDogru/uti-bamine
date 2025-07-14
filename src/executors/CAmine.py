@@ -15,7 +15,7 @@ from components.CAmine.src.utils.response import build_response
 from components.CAmine.src.models.PackageModel import PackageModel
 
 
-class CAmineExecutor(Component):
+class CAmine(Component):
     def __init__(self, request, bootstrap):
         super().__init__(request, bootstrap)
         self.request.model = PackageModel(**(self.request.data))
