@@ -21,23 +21,28 @@ class CAmine(Component):
         self.request.model = PackageModel(**(self.request.data))
         self.rotation_degree = self.request.get_param("Degree")
         self.keep_side = self.request.get_param("KeepSide")
-        self.image = self.request.get_param("inputImage")
+        self.imageOne = self.request.get_param("inputImageOne")
+        self.imageTwo = self.request.get_param("inputImageTwo")
 
     @staticmethod
     def bootstrap(config: dict) -> dict:
         return {}
 
-    def crop(self,img):
-        return  img[50:180, 100:300]
-
-
+    def crop(self, img):
+        return img[50:180, 100:300]
 
     def run(self):
-        img = Image.get_frame(img=self.image, redis_db=self.redis_db)
-        img.value = self.crop(img.value)
-        self.image_two = Image.set_frame(img=img, package_uID=self.uID, redis_db=self.redis_db)
-        packageModel = build_response_c(context=self)
-        return packageModel
+        img1 = Image.get_frame(img=self.imageOne, redis_db=self.redis_db)
+        img1.value = self.crop(img1.value)
+        self.imageOne = Image.set_frame(img=img1, package_uID=self.uID, redis_db=self.redis_db)
+
+        img2 = Image.get_frame(img=self.imageTwo, redis_db=self.redis_db)
+        img2.value = self.crop(img2.value)
+        self.imageTwo = Image.set_frame(img=img2, package_uID=self.uID, redis_db=self.redis_db)
+
+        self.image_one = self.imageOne  # context.image_one için
+        self.image_two = self.imageTwo  # context.image_two için
+        return build_response_c(context=self)
 
 
 if "__main__" == __name__:

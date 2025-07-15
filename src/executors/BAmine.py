@@ -21,26 +21,22 @@ class BAmine(Component):
         self.request.model = PackageModel(**(self.request.data))
         self.rotation_degree = self.request.get_param("Degree")
         self.keep_side = self.request.get_param("KeepSide")
-        self.image = self.request.get_param("inputImage")
+        self.imageOne = self.request.get_param("inputImageOne")
 
     @staticmethod
     def bootstrap(config: dict) -> dict:
         return {}
 
     def blurring(self, img):
-        """,
-        Convert image to blurring
-        """
-        # Gaussian Blur uygulama
-
         return cv2.GaussianBlur(img, (15, 15), 0)
 
     def run(self):
-        img = Image.get_frame(img=self.image, redis_db=self.redis_db)
+        img = Image.get_frame(img=self.imageOne, redis_db=self.redis_db)
         img.value = self.blurring(img.value)
-        self.image_one = Image.set_frame(img=img, package_uID=self.uID, redis_db=self.redis_db)
-        packageModel = build_response_b(context=self)
-        return packageModel
+        self.imageOne = Image.set_frame(img=img, package_uID=self.uID, redis_db=self.redis_db)
+        self.image_one = self.imageOne  # context.image_one için
+        return build_response_b(context=self)
+
 
 if "__main__" == __name__:
     Executor(sys.argv[1]).run()
