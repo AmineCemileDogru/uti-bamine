@@ -252,4 +252,4 @@ class PackageConfigs(Configs):
 class PackageModel(Package):
     configs: PackageConfigs
     type: Literal["component"] = "component"
-    name: Literal["BAmine"] = "BAmine"
+    name: Literal["BAmine", "CAmine"]  # ✔ Her iki executor'u desteklemesi için
