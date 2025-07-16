@@ -20,6 +20,8 @@ class CAmine(Component):
         self.crop_box_size = self.request.get_param("CropBoxSize")
         self.crop_ratio = self.request.get_param("CropRatio")
 
+
+
         # Varsayılan değerleri atayalım eğer None gelirse
         if self.crop_box_size is None:
             self.crop_box_size = 100
@@ -60,5 +62,5 @@ class CAmine(Component):
         return build_response_c(context=self)
 
 
-if __name__ == "__main__":
+if "__main__" == __name__:
     Executor(sys.argv[1]).run()
