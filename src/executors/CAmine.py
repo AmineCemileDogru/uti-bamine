@@ -11,8 +11,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../../../../'))
 from sdks.novavision.src.media.image import Image
 from sdks.novavision.src.base.component import Component
 from sdks.novavision.src.helper.executor import Executor
-from components.CAmine.src.utils.response import build_response_c
-from components.CAmine.src.models.PackageModel import PackageModel
+from components.BAmine.src.utils.response import build_response_c
+from components.BAmine.src.models.PackageModel import PackageModel
 
 
 class CAmine(Component):
