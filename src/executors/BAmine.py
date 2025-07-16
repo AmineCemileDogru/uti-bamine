@@ -37,10 +37,12 @@ class BAmine(Component):
         img = Image.get_frame(img=self.imageOne, redis_db=self.redis_db)
         img.value = self.blurring(img.value)
         self.imageOne = Image.set_frame(img=img, package_uID=self.uID, redis_db=self.redis_db)
+
+        self.image = self.imageOne  # 🔧 Bu satırı EKLE!
+        self.image_one = self.imageOne  # Bu zaten varsa, iyi. Yoksa bunu da ekle.
+
         packageModel = build_response_b(context=self)
         return packageModel
-
-
 
 
 if "__main__" == __name__:
