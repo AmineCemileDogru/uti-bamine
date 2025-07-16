@@ -116,6 +116,39 @@ class Degree(Config):
     class Config:
         title = "Anglee"
 
+
+
+
+class CropBoxSize(Config):
+    name: Literal["CropBoxSize"] = "CropBoxSize"
+    value: int = Field(default=100, ge=10, le=500)
+    type: Literal["number"] = "number"
+    field: Literal["textInput"] = "textInput"
+
+    class Config:
+        title = "Crop Box Size"
+
+class CropRatio(Config):
+    name: Literal["CropRatio"] = "CropRatio"
+    value: float = Field(default=0.5, ge=0.1, le=1.0)
+    type: Literal["number"] = "number"
+    field: Literal["slider"] = "slider"
+
+    class Config:
+        title = "Crop Ratio"
+
+class CropType(Config):
+    name: Literal["CropType"] = "CropType"
+    value: Union[CropBoxSize, CropRatio]
+    type: Literal["object"] = "object"
+    field: Literal["dependentDropdownlist"] = "dependentDropdownlist"
+
+    class Config:
+        title = "Crop Type Selection"
+
+
+
+
 class BAmineExecutorInputs(Inputs):
     inputImageOne: InputImageOne
 
@@ -166,8 +199,7 @@ class CAmineExecutorInputs(Inputs):
 
 
 class CAmineExecutorConfigs(Configs):
-    degree: Degree
-    drawBBox: KeepSideBBox
+    cropType: CropType
 
 class CAmineExecutorRequest(Request):
     inputs: Optional[CAmineExecutorInputs]
