@@ -1,7 +1,3 @@
-"""
-    It is one of the preprocessing components in which the image is cropped.
-"""
-
 import os
 import cv2
 import sys
@@ -19,9 +15,17 @@ class CAmine(Component):
     def __init__(self, request, bootstrap):
         super().__init__(request, bootstrap)
         self.request.model = PackageModel(**(self.request.data))
+
         self.crop_type = self.request.get_param("CropType")
-        self.crop_box_size = self.request.get_param("CropBoxSize", default=100)
-        self.crop_ratio = self.request.get_param("CropRatio", default=0.5)
+        self.crop_box_size = self.request.get_param("CropBoxSize")
+        self.crop_ratio = self.request.get_param("CropRatio")
+
+        # Varsayılan değerleri atayalım eğer None gelirse
+        if self.crop_box_size is None:
+            self.crop_box_size = 100
+        if self.crop_ratio is None:
+            self.crop_ratio = 0.5
+
         self.imageOne = self.request.get_param("inputImageOne")
         self.imageTwo = self.request.get_param("inputImageTwo")
 
@@ -30,16 +34,15 @@ class CAmine(Component):
         return {}
 
     def crop(self, img):
-        if self.crop_type == "Fixed":
-            # Sabit kutu kesme (örneğin: 100x100)
-            return img[50:50+self.crop_box_size, 50:50+self.crop_box_size]
-        elif self.crop_type == "Ratio":
+        if isinstance(self.crop_type, str) and self.crop_type.lower() == "cropboxsize":
+            return img[50:50 + self.crop_box_size, 50:50 + self.crop_box_size]
+        elif isinstance(self.crop_type, str) and self.crop_type.lower() == "cropratio":
             h, w = img.shape[:2]
             new_h = int(h * self.crop_ratio)
             new_w = int(w * self.crop_ratio)
             start_y = (h - new_h) // 2
             start_x = (w - new_w) // 2
-            return img[start_y:start_y+new_h, start_x:start_x+new_w]
+            return img[start_y:start_y + new_h, start_x:start_x + new_w]
         else:
             return img  # Geçersiz durumda orijinal döndür
 
