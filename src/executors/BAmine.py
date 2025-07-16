@@ -19,8 +19,11 @@ class BAmine(Component):
     def __init__(self, request, bootstrap):
         super().__init__(request, bootstrap)
         self.request.model = PackageModel(**(self.request.data))
+        print(self.request.data)
         self.rotation_degree = self.request.get_param("Degree")
+        print("self.rotation_degree:", self.rotation_degree)
         self.keep_side = self.request.get_param("KeepSide")
+        print("self.keep_side:",self.keep_side)
         self.imageOne = self.request.get_param("inputImageOne")
 
     @staticmethod

@@ -15,6 +15,7 @@ class CAmine(Component):
     def __init__(self, request, bootstrap):
         super().__init__(request, bootstrap)
         self.request.model = PackageModel(**(self.request.data))
+        print(self.request.data)
 
         self.crop_type = self.request.get_param("CropType")
         self.crop_box_size = self.request.get_param("CropBoxSize")
