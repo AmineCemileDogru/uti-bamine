@@ -132,7 +132,7 @@ class CropRatio(Config):
     name: Literal["CropRatio"] = "CropRatio"
     value: float = Field(default=0.5, ge=0.1, le=1.0)
     type: Literal["number"] = "number"
-    field: Literal["slider"] = "slider"
+    field: Literal["textInput"] = "textInput"
 
     class Config:
         title = "Crop Ratio"
