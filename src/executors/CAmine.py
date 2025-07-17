@@ -9,6 +9,7 @@ from sdks.novavision.src.base.component import Component
 from sdks.novavision.src.helper.executor import Executor
 from components.BAmine.src.utils.response import build_response_c
 from components.BAmine.src.models.PackageModel import PackageModel
+from components.BAmine.src.models.PackageModel import CropBoxSize, CropRatio
 
 
 class CAmine(Component):
