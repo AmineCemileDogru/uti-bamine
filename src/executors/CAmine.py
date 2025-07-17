@@ -37,8 +37,24 @@ class CAmine(Component):
     def bootstrap(config: dict) -> dict:
         return {}
 
+
     def crop(self, img):
         crop_value = self.crop_type.value
+
+        # Dict ise tipten nesne yarat
+        if isinstance(crop_value, dict):
+            if crop_value.get("name") == "CropBoxSize":
+                crop_value = CropBoxSize(**crop_value)
+            elif crop_value.get("name") == "CropRatio":
+                crop_value = CropRatio(**crop_value)
+            else:
+                return img
+
+        # Eğer doğrudan int veya float gelirse, CropBoxSize/CropRatio objesine çevir
+        if isinstance(crop_value, int):
+            crop_value = CropBoxSize(value=crop_value)
+        if isinstance(crop_value, float):
+            crop_value = CropRatio(value=crop_value)
 
         if isinstance(crop_value, CropBoxSize):
             return img[50:50 + crop_value.value, 50:50 + crop_value.value]
