@@ -116,6 +116,18 @@ class Degree(Config):
     class Config:
         title = "Anglee"
 
+class BlurringKernelSize(Config):
+    name: Literal["BlurringKernelSize"] = "BlurringKernelSize"
+    value: int = Field(default=15, ge=1, le=99)
+    type: Literal["number"] = "number"
+    field: Literal["textInput"] = "textInput"
+    placeHolder: Literal["Odd number like 3, 5, 15"] = "Odd number like 3, 5, 15"
+
+    class Config:
+        title = "Blur Kernel Size"
+
+
+
 
 
 
@@ -156,6 +168,7 @@ class BAmineExecutorInputs(Inputs):
 class BAmineExecutorConfigs(Configs):
     degree: Degree
     drawBBox: KeepSideBBox
+    blurKernelSize: BlurringKernelSize
 
 class BAmineExecutorRequest(Request):
     inputs: Optional[BAmineExecutorInputs]

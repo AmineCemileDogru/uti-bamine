@@ -21,17 +21,20 @@ class BAmine(Component):
         self.request.model = PackageModel(**(self.request.data))
         print(self.request.data)
         self.rotation_degree = self.request.get_param("Degree")
-        print("self.rotation_degree:", self.rotation_degree)
         self.keep_side = self.request.get_param("KeepSide")
-        print("self.keep_side:",self.keep_side)
+        self.blur_kernel_size = self.request.get_param("BlurringKernelSize")
         self.imageOne = self.request.get_param("inputImageOne")
 
     @staticmethod
     def bootstrap(config: dict) -> dict:
         return {}
 
+
     def blurring(self, img):
-        return cv2.GaussianBlur(img, (15, 15), 0)
+        k = self.blur_kernel_size
+        if k % 2 == 0:
+            k += 1  # Çift sayı geldiyse tek yap (OpenCV için)
+        return cv2.GaussianBlur(img, (k, k), 0)
 
     def run(self):
         img = Image.get_frame(img=self.imageOne, redis_db=self.redis_db)
