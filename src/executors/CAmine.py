@@ -37,7 +37,7 @@ class CAmine(Component):
         return {}
 
     def crop(self, img):
-        crop_value = self.crop_type
+        crop_value = self.crop_type.value
 
         if isinstance(crop_value, CropBoxSize):
             return img[50:50 + crop_value.value, 50:50 + crop_value.value]
