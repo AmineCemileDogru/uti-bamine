@@ -8,8 +8,7 @@ from sdks.novavision.src.media.image import Image
 from sdks.novavision.src.base.component import Component
 from sdks.novavision.src.helper.executor import Executor
 from components.BAmine.src.utils.response import build_response_c
-from components.BAmine.src.models.PackageModel import PackageModel
-from components.BAmine.src.models.PackageModel import CropBoxSize, CropRatio
+from components.BAmine.src.models.PackageModel import PackageModel, CropBoxSize, CropRatio
 
 
 class CAmine(Component):
@@ -38,10 +37,11 @@ class CAmine(Component):
         return {}
 
 
+
     def crop(self, img):
         crop_value = self.crop_type.value
 
-        # Dict ise tipten nesne yarat
+        # Eğer dict ise
         if isinstance(crop_value, dict):
             if crop_value.get("name") == "CropBoxSize":
                 crop_value = CropBoxSize(**crop_value)
@@ -50,9 +50,10 @@ class CAmine(Component):
             else:
                 return img
 
-        # Eğer doğrudan int veya float gelirse, CropBoxSize/CropRatio objesine çevir
+        # Eğer doğrudan int gelirse
         if isinstance(crop_value, int):
             crop_value = CropBoxSize(value=crop_value)
+        # Eğer doğrudan float gelirse
         if isinstance(crop_value, float):
             crop_value = CropRatio(value=crop_value)
 
