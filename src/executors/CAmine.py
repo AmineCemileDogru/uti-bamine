@@ -37,17 +37,19 @@ class CAmine(Component):
         return {}
 
     def crop(self, img):
-        if isinstance(self.crop_type, str) and self.crop_type.lower() == "cropboxsize":
-            return img[50:50 + self.crop_box_size, 50:50 + self.crop_box_size]
-        elif isinstance(self.crop_type, str) and self.crop_type.lower() == "cropratio":
+        crop_value = self.crop_type
+
+        if isinstance(crop_value, CropBoxSize):
+            return img[50:50 + crop_value.value, 50:50 + crop_value.value]
+        elif isinstance(crop_value, CropRatio):
             h, w = img.shape[:2]
-            new_h = int(h * self.crop_ratio)
-            new_w = int(w * self.crop_ratio)
+            new_h = int(h * crop_value.value)
+            new_w = int(w * crop_value.value)
             start_y = (h - new_h) // 2
             start_x = (w - new_w) // 2
             return img[start_y:start_y + new_h, start_x:start_x + new_w]
         else:
-            return img  # Geçersiz durumda orijinal döndür
+            return img
 
     def run(self):
         img1 = Image.get_frame(img=self.imageOne, redis_db=self.redis_db)
