@@ -4,7 +4,7 @@ import cv2
 from tensorflow.keras.models import load_model
 from sdks.novavision.src.base.logger import LoggerManager
 from sdks.novavision.src.base.application import Application
-from sdks.novavision.src.helper.path import get_package_storage_path
+
 
 
 def load_model_custom(config):
