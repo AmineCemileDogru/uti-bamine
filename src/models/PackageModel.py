@@ -4,6 +4,15 @@ from typing import List, Optional, Union, Literal
 from sdks.novavision.src.base.model import Package, Image, Inputs, Configs, Outputs, Response, Request, Output, Input, Config
 
 
+class Weights(Config):
+    name: Literal["Weights"] = "Weights"
+    value: str = "my_model.h5"
+    type: Literal["string"] = "string"
+    field: Literal["textInput"] = "textInput"
+
+    class Config:
+        title = "Model File Name"
+
 class InputImageOne(Input):
     name: Literal["inputImageOne"] = "inputImageOne"
     value: Union[List[Image], Image]
@@ -161,6 +170,48 @@ class CropType(Config):
 
 
 
+class TrafficSignModelPath(Config):
+    name: Literal["ModelPath"] = "ModelPath"
+    value: str = "/mnt/data/my_model.h5"
+    type: Literal["text"] = "text"
+    field: Literal["textInput"] = "textInput"
+
+    class Config:
+        title = "Model Path"
+
+
+class ConfidenceThreshold(Config):
+    name: Literal["ConfidentThreshold"] = "ConfidentThreshold"
+    value: float = Field(default=0.25, ge=0.0, le=1.0)
+    type: Literal["number"] = "number"
+    field: Literal["textInput"] = "textInput"
+
+    class Config:
+        title = "Confidence Threshold"
+
+class IOUThreshold(Config):
+    name: Literal["IOUThreshold"] = "IOUThreshold"
+    value: float = Field(default=0.45, ge=0.0, le=1.0)
+    type: Literal["number"] = "number"
+    field: Literal["textInput"] = "textInput"
+
+    class Config:
+        title = "IoU Threshold"
+
+class ConfigDevice(Config):
+    name: Literal["ConfigDevice"] = "ConfigDevice"
+    value: Literal["CPU", "GPU"] = "CPU"
+    type: Literal["select"] = "select"
+    field: Literal["dropdownlist"] = "dropdownlist"
+    options: List[str] = ["CPU", "GPU"]
+
+    class Config:
+        title = "Device"
+
+
+
+
+
 class BAmineExecutorInputs(Inputs):
     inputImageOne: InputImageOne
 
@@ -247,11 +298,52 @@ class CAmineExecutor(Config):
 
 
 
+class TrafficSignExecutorInputs(Inputs):
+    inputImageOne: InputImageOne
+
+
+class TrafficSignExecutorConfigs(Configs):
+    ModelPath: TrafficSignModelPath
+    ConfidentThreshold: ConfidenceThreshold
+    IOUThreshold: IOUThreshold
+    ConfigDevice: ConfigDevice
+
+
+class TrafficSignExecutorRequest(Request):
+    inputs: Optional[TrafficSignExecutorInputs]
+    configs: TrafficSignExecutorConfigs
+
+    class Config:
+        json_schema_extra = {
+            "target": "configs"
+        }
+
+class TrafficSignExecutorOutputs(Outputs):
+    outputImageOne: OutputImageOne
+
+class TrafficSignExecutorResponse(Response):
+    outputs: TrafficSignExecutorOutputs
+
+class TrafficSignExecutor(Config):
+    name: Literal["TrafficSign"] = "TrafficSign"
+    value: Union[TrafficSignExecutorRequest, TrafficSignExecutorResponse]
+    type: Literal["object"] = "object"
+    field: Literal["option"] = "option"
+
+    class Config:
+        title = "Traffic Sign"
+        json_schema_extra = {
+            "target": {
+                "value": 0
+            }
+        }
+
+
 
 
 class ConfigExecutor(Config):
     name: Literal["ConfigExecutor"] = "ConfigExecutor"
-    value: Union[BAmineExecutor, CAmineExecutor]
+    value: Union[BAmineExecutor, CAmineExecutor, TrafficSignExecutor]
     type: Literal["executor"] = "executor"
     field: Literal["dependentDropdownlist"] = "dependentDropdownlist"
     restart: Literal[True] = True
@@ -261,6 +353,8 @@ class ConfigExecutor(Config):
 
 class PackageConfigs(Configs):
     executor: ConfigExecutor
+    Weights: Weights
+
 
 class PackageModel(Package):
     configs: PackageConfigs

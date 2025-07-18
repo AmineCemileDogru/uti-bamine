@@ -1,6 +1,6 @@
 
 from sdks.novavision.src.helper.package import PackageHelper
-from components.BAmine.src.models.PackageModel import PackageModel, PackageConfigs, ConfigExecutor, BAmineExecutorOutputs, BAmineExecutorResponse, BAmineExecutor, CAmineExecutorOutputs, CAmineExecutorResponse, CAmineExecutor, OutputImageOne, OutputImageTwo
+from components.BAmine.src.models.PackageModel import PackageModel, PackageConfigs, ConfigExecutor, BAmineExecutorOutputs, BAmineExecutorResponse, BAmineExecutor, CAmineExecutorOutputs, CAmineExecutorResponse, CAmineExecutor, TrafficSignExecutorOutputs, TrafficSignExecutorResponse, TrafficSignExecutor, OutputImageOne, OutputImageTwo
 
 
 def build_response_b(context):
@@ -24,3 +24,14 @@ def build_response_c(context):
     packageConfigs = PackageConfigs(executor=configexecutor)
     package = PackageHelper(packageModel=PackageModel, packageConfigs=packageConfigs)
     return package.build_model(context)
+
+def build_response_traffic(context):
+    outputImageOne = OutputImageOne(value=context.image_one)
+    t_outputs = TrafficSignExecutorOutputs(outputImageOne=outputImageOne)
+    t_response = TrafficSignExecutorResponse(outputs=t_outputs)
+    t_executor = TrafficSignExecutor(value=t_response)
+    configexecutor = ConfigExecutor(value=t_executor)
+    packageConfigs = PackageConfigs(executor=configexecutor)
+    package = PackageHelper(packageModel=PackageModel, packageConfigs=packageConfigs)
+    return package.build_model(context)
+
