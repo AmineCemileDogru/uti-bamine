@@ -2,7 +2,7 @@
 from pydantic import Field, validator
 from typing import List, Optional, Union, Literal
 from sdks.novavision.src.base.model import Package, Image, Inputs, Configs, Outputs, Response, Request, Output, Input, Config
-from sdks.novavision.src.helper.schema import get_config_fields
+
 
 
 
