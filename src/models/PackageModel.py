@@ -329,6 +329,7 @@ class TrafficSignExecutor(Config):
     value: Union[TrafficSignExecutorRequest, TrafficSignExecutorResponse]
     type: Literal["object"] = "object"
     field: Literal["option"] = "option"
+    configs: List[Config] = TrafficSignExecutorConfigs.__annotations__.values()
 
     class Config:
         title = "Traffic Sign"
@@ -337,6 +338,7 @@ class TrafficSignExecutor(Config):
                 "value": 0
             }
         }
+
 
 
 
