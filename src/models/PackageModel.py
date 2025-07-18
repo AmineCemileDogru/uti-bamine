@@ -278,7 +278,6 @@ class TrafficSignExecutor(Config):
     value: Union[TrafficSignExecutorRequest, TrafficSignExecutorResponse]
     type: Literal["object"] = "object"
     field: Literal["option"] = "option"
-    configs: List[Config] = get_config_fields(TrafficSignExecutorConfigs)
 
     class Config:
         title = "Traffic Sign"
