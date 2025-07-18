@@ -39,6 +39,10 @@ class TrafficSign(Component):
         self.image = self.request.get_param("inputImageOne")
         self.model = bootstrap["model"]  # Keras model
         self.device = bootstrap.get("device", "cpu")
+        # TrafficSign özel configleri burada alabilirsin:
+        self.conf_threshold = getattr(self.request.configs, "ConfidentThreshold", 0.5)
+        self.iou_threshold = getattr(self.request.configs, "IOUThreshold", 0.3)
+        self.model_path = getattr(self.request.configs, "ModelPath", "/mnt/data/my_model.h5")
 
     @staticmethod
     def bootstrap(config: dict) -> dict:
