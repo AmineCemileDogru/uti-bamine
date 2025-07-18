@@ -38,15 +38,11 @@ class TrafficSign(Component):
         self.request.model = PackageModel(**(self.request.data))
         self.image = self.request.get_param("inputImageOne")
         self.model = bootstrap["model"]  # Keras model
-        self.device = bootstrap.get("device", "cpu")
-        # TrafficSign özel configleri burada alabilirsin:
-        self.conf_threshold = getattr(self.request.configs, "ConfidentThreshold", 0.5)
-        self.iou_threshold = getattr(self.request.configs, "IOUThreshold", 0.3)
-        self.model_path = getattr(self.request.configs, "ModelPath", "/mnt/data/my_model.h5")
 
     @staticmethod
     def bootstrap(config: dict) -> dict:
-        return load_model_custom(config)  # returns { "model": keras_model }
+        model=load_model_custom(config=config)
+        return {"model":model}
 
     def classify_sign(self, image_array, img_uid):
         resized = cv2.resize(image_array, (30, 30))
@@ -72,13 +68,9 @@ class TrafficSign(Component):
         )
 
     def run(self):
-        self.image = Image.get_frame(img=self.image, redis_db=self.redis_db)
-        np_image = self.image.value  # NumPy image
-
-        detection = self.classify_sign(np_image, img_uid=self.image.uID)
-        self.detection = [detection]
-        self.image_one = self.image
-
+        img = Image.get_frame(img=self.imageOne, redis_db=self.redis_db)
+        self.imageOne = Image.set_frame(img=img, package_uID=self.uID, redis_db=self.redis_db)
+        self.image_one = self.imageOne
         packageModel = build_response_traffic(context=self)
         return packageModel
 

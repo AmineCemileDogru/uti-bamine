@@ -2,11 +2,13 @@
 from pydantic import Field, validator
 from typing import List, Optional, Union, Literal
 from sdks.novavision.src.base.model import Package, Image, Inputs, Configs, Outputs, Response, Request, Output, Input, Config
+from sdks.novavision.src.helper.schema import get_config_fields
+
 
 
 class Weights(Config):
     name: Literal["Weights"] = "Weights"
-    value: str = "my_model.h5"
+    value: str = "/storage/my_model.h5"
     type: Literal["string"] = "string"
     field: Literal["textInput"] = "textInput"
 
@@ -168,50 +170,6 @@ class CropType(Config):
         title = "Crop Type Selection"
 
 
-
-
-class TrafficSignModelPath(Config):
-    name: Literal["ModelPath"] = "ModelPath"
-    value: str = "/mnt/data/my_model.h5"
-    type: Literal["text"] = "text"
-    field: Literal["textInput"] = "textInput"
-
-    class Config:
-        title = "Model Path"
-
-
-class ConfidenceThreshold(Config):
-    name: Literal["ConfidentThreshold"] = "ConfidentThreshold"
-    value: float = Field(default=0.25, ge=0.0, le=1.0)
-    type: Literal["number"] = "number"
-    field: Literal["textInput"] = "textInput"
-
-    class Config:
-        title = "Confidence Threshold"
-
-class IOUThreshold(Config):
-    name: Literal["IOUThreshold"] = "IOUThreshold"
-    value: float = Field(default=0.45, ge=0.0, le=1.0)
-    type: Literal["number"] = "number"
-    field: Literal["textInput"] = "textInput"
-
-    class Config:
-        title = "IoU Threshold"
-
-class ConfigDevice(Config):
-    name: Literal["ConfigDevice"] = "ConfigDevice"
-    value: Literal["CPU", "GPU"] = "CPU"
-    type: Literal["select"] = "select"
-    field: Literal["dropdownlist"] = "dropdownlist"
-    options: List[str] = ["CPU", "GPU"]
-
-    class Config:
-        title = "Device"
-
-
-
-
-
 class BAmineExecutorInputs(Inputs):
     inputImageOne: InputImageOne
 
@@ -297,21 +255,12 @@ class CAmineExecutor(Config):
 
 
 
-
 class TrafficSignExecutorInputs(Inputs):
     inputImageOne: InputImageOne
 
 
-class TrafficSignExecutorConfigs(Configs):
-    ModelPath: TrafficSignModelPath
-    ConfidentThreshold: ConfidenceThreshold
-    IOUThreshold: IOUThreshold
-    ConfigDevice: ConfigDevice
-
-
 class TrafficSignExecutorRequest(Request):
     inputs: Optional[TrafficSignExecutorInputs]
-    configs: TrafficSignExecutorConfigs
 
     class Config:
         json_schema_extra = {
@@ -329,7 +278,7 @@ class TrafficSignExecutor(Config):
     value: Union[TrafficSignExecutorRequest, TrafficSignExecutorResponse]
     type: Literal["object"] = "object"
     field: Literal["option"] = "option"
-    configs: List[Config] = TrafficSignExecutorConfigs.__annotations__.values()
+    configs: List[Config] = get_config_fields(TrafficSignExecutorConfigs)
 
     class Config:
         title = "Traffic Sign"
@@ -355,7 +304,6 @@ class ConfigExecutor(Config):
 
 class PackageConfigs(Configs):
     executor: ConfigExecutor
-    Weights: Weights
 
 
 class PackageModel(Package):
