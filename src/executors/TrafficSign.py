@@ -10,7 +10,7 @@ from sdks.novavision.src.media.image import Image
 from sdks.novavision.src.base.component import Component
 from sdks.novavision.src.helper.executor import Executor
 from components.BAmine.src.utils.response import build_response_traffic
-from components.BAmine.src.models.PackageModel import PackageModel
+from components.BAmine.src.models.PackageModel import PackageModel, Detection
 from components.BAmine.src.utils.utils import load_model_custom
 
 
